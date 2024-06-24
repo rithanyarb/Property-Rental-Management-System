@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Booking History</h1>
+    </header>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="prop_listing.html">Property Listings</a>
+        <a href="booking.html">Book Property</a>
+        <a href="booking_history.html">Booking History</a>
+    </div>
+    <div class="container">
+        <h2>Your Bookings</h2>
+        <table>
+            <tr>
+                <th>Property Name</th>
+                <th>User Name</th>
+                <th>Booking Date</th>
+            </tr>
+            <php?
+            $host = "localhost";
+            $port = 3306;
+            $socket = "";
+            $user = "root";
+            $password = "1234";
+            $dbname = "property_rental";
+
+            $conn = new mysqli($host, $user, $password, $dbname, $port, $socket);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $sql = "SELECT Property.name, Booking.user_name, Booking.booking_date 
+                    FROM Booking 
+                    INNER JOIN Property ON Booking.property_id = Property.id";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . $row["name"] . "</td>
+                            <td>" . $row["user_name"] . "</td>
+                            <td>" . $row["booking_date"] . "</td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='3'>No bookings found</td></tr>";
+            }
+            $conn->close();
+            ?>
+        </table>
+    </div>
+</body>
+</html>
